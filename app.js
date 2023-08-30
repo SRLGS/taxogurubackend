@@ -247,7 +247,7 @@ const generateOTP = () => {
     app.get('/adminEmail', (req, res) => {
       const{email}=req.body
       const query = 'SELECT * FROM account where email=?';
-      db.query(query, [email=null], (err, data) => {
+      db.query(query, [email], (err, data) => {
         console.log(err,data)
         if (err) {
           console.log('Error In Fetching Data From Database:', err);
@@ -538,11 +538,15 @@ app.post('/spouseDetails', async(req,res)=>{
          Occupation,
          FirstDateOfEntryToUS
       ]; 
-      
-      await db.query(insertQuery, insertValues);
 
-      res.status(200).json({ message: 'Data inserted successfully' });
 
+      db.query(insertQuery,insertValues,(err,result)=>{
+        if(err){
+          res.status(500).send("error Happend During Sending")
+        }else{
+          res.status(200).send('Data Inserted Successfully' );
+        }
+      })
   }catch(error){
       console.error('Error inserting data:', error);
       res.status(500).json({ error: 'An error occurred' });
@@ -598,9 +602,14 @@ app.post('/DependentDetails', async(req,res)=>{
           DayCareExpensesIfBothTaxpayerAndSpouseAreWorking
       ];
 
-      await db.query(insertQuery, insertValues);
 
-      res.status(200).json({ message: 'Data inserted successfully' });
+      db.query(insertQuery,insertValues,(err,result)=>{
+        if(err){
+          res.status(500).send("error Happend During Sending")
+        }else{
+          res.status(200).send('Data Inserted Successfully' );
+        }
+      })
 
   }catch(error){
       console.error('Error inserting data:', error);
@@ -631,10 +640,17 @@ app.post('/EmploymentDetailsTaxpayer',async(req,res)=>{
           EMPLOYERNAME, 
           EmploymentStartDate, 
           EmploymentEndDate 
-      ];    
-      await db.query(insertQuery, insertValues);
-
-      res.status(200).json({ message: 'Data inserted successfully' });
+      ];
+      
+      
+      db.query(insertQuery,insertValues,(err,result)=>{
+        if(err){
+          res.status(500).send("error Happend During Sending")
+        }else{
+          res.status(200).send('Data Inserted Successfully' );
+        }
+      })
+    
   }catch(error){
       console.error('Error inserting data:', error);
       res.status(500).json({ error: 'An error occurred' });
@@ -664,9 +680,15 @@ app.post('/EmploymentDetailsTaxpayerSpouse',async(req,res)=>{
           EmploymentStartDate, 
           EmploymentEndDate 
       ];    
-      await db.query(insertQuery, insertValues);
+     
 
-      res.status(200).json({ message: 'Data inserted successfully' });
+      db.query(insertQuery,insertValues,(err,result)=>{
+        if(err){
+          res.status(500).send("error Happend During Sending")
+        }else{
+          res.status(200).send('Data Inserted Successfully' );
+        }
+      })
   }catch(error){
       console.error('Error inserting data:', error);
       res.status(500).json({ error: 'An error occurred' });
@@ -677,67 +699,82 @@ app.post('/EmploymentDetailsTaxpayerSpouse',async(req,res)=>{
 
 app.post('/ResidencyDetailsTaxpayer',async(req,res)=>{
   try{
+
+    const {
+      user_id,
+      ResidencyStateAndCityName,
+      StartDate,
+      EndDate,
+      TotalRentPaidDuring
+  } = req.body;
+
+  const insertQuery = `INSERT INTO ResidencyDetailsTaxpayer(user_id,
+      ResidencyStateAndCityName,
+      StartDate,
+      EndDate,
+      TotalRentPaidDuring) VALUES (?, ?, ?, ?, ?)`;
+
+  const insertValues = [
+      user_id,
+      ResidencyStateAndCityName,
+      StartDate,
+      EndDate,
+      TotalRentPaidDuring
+  ];
+  db.query(insertQuery,insertValues,(err,result)=>{
+    if(err){
+      res.status(500).send("error Happend During Sending")
+    }else{
+      res.status(200).send('Data Inserted Successfully' );
+    }
+  })
+     
+    }
+    catch(err){
+      console.error('Error inserting data:', error);
+      res.status(500).json({ error: 'An error occurred' });
+    }
+  })
+
+
+
+
+app.post('/ResidencyDetailsSpouse', async (req, res) => {
+  try {
       const {
           user_id,
           ResidencyStateAndCityName,
           StartDate,
           EndDate,
-          TotalRentPaidDuring 
-      }=req.body;
+          TotalRentPaidDuring
+      } = req.body;
 
-      const insertQuery =`INSERT INTO ResidencyDetailsTaxpayer(user_id,
+      const insertQuery = `INSERT INTO ResidencyDetailsSpouse(user_id,
           ResidencyStateAndCityName,
           StartDate,
           EndDate,
-          TotalRentPaidDuring ) VALUES(?,?,?,?,?)`
+          TotalRentPaidDuring) VALUES (?, ?, ?, ?, ?)`;
 
       const insertValues = [
           user_id,
           ResidencyStateAndCityName,
           StartDate,
           EndDate,
-          TotalRentPaidDuring 
-      ];  
-      
-      await db.query(insertQuery,insertValues);
-      res.status(200).json({ message: 'Data inserted successfully' });
-  }catch(error){
+          TotalRentPaidDuring
+      ];
+      db.query(insertQuery,insertValues,(err,result)=>{
+        if(err){
+          res.status(500).send("error Happend During Sending")
+        }else{
+          res.status(200).send('Data Inserted Successfully' );
+        }
+      })      
+  } catch (error) {
       console.error('Error inserting data:', error);
       res.status(500).json({ error: 'An error occurred' });
   }
-})
+});
 
 
 
 
-app.post('/ResidencyDetailsSpouse',async(req,res)=>{
-  try{
-      const {
-          user_id,
-          ResidencyStateAndCityName,
-          StartDate,
-          EndDate,
-          TotalRentPaidDuring 
-      }=req.body;
-
-      const insertQuery =`INSERT INTO ResidencyDetailsSpouse(user_id,
-          ResidencyStateAndCityName,
-          StartDate,
-          EndDate,
-          TotalRentPaidDuring ) VALUES(?,?,?,?,?)`
-
-      const insertValues = [
-          user_id,
-          ResidencyStateAndCityName,
-          StartDate,
-          EndDate,
-          TotalRentPaidDuring 
-      ];  
-      
-      await db.query(insertQuery,insertValues);
-      res.status(200).json({ message: 'Data inserted successfully' });
-  }catch(error){
-      console.error('Error inserting data:', error);
-      res.status(500).json({ error: 'An error occurred' });
-  }
-})
