@@ -290,7 +290,7 @@ const generateOTP = () => {
 
 /*const createTableQuery2 = `CREATE TABLE taxpayer (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id VARCHAR(100) ,
+  user_id  unique VARCHAR(100) ,
   LastName VARCHAR(100) default null,
   FirstName VARCHAR(100)default null,
   MiddleName VARCHAR(100)default null,
@@ -352,7 +352,7 @@ const generateOTP = () => {
   LocalTransportationExpenses INT default null,
   PointsPaidOnLoan INT default null,
   RentalPaymentsLoss INT default null,
-  Repairs INT default null,
+  Repairs INT default null,  
   TaxReturnPreparationFees INT default null,
   Taxes INT default null,
   TravelExpenses INT default null,
@@ -542,6 +542,7 @@ app.post('/spouseDetails', async(req,res)=>{
 
       db.query(insertQuery,insertValues,(err,result)=>{
         if(err){
+          console.log(err)
           res.status(500).send("error Happend During Sending")
         }else{
           res.status(200).send('Data Inserted Successfully' );
