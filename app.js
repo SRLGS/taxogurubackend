@@ -779,3 +779,41 @@ app.post('/ResidencyDetailsSpouse', async (req, res) => {
 
 
 
+app.post('/FABRInformation',(req,res)=>{
+  try{
+      const {
+        user_id,
+        MaximumValueOfAccountDuringCalendarYearReported,
+        TypeOfAccount,
+        NameOfTheFinancialInstitutionInWhichAccountIsHeld,
+        MailingAddressOfBank  
+      }=req.body;
+
+      const insertQuery =`INSERT INTO FABRInformation(user_id,
+      MaximumValueOfAccountDuringCalendarYearReported,
+      TypeOfAccount,
+      NameOfTheFinancialInstitutionInWhichAccountIsHeld,
+      MailingAddressOfBank 
+       ) VALUES(?,?,?,?,?)`
+
+      const insertValues = [
+        user_id,
+        MaximumValueOfAccountDuringCalendarYearReported,
+        TypeOfAccount,
+        NameOfTheFinancialInstitutionInWhichAccountIsHeld,
+        MailingAddressOfBank 
+      ];  
+      
+      db.query(insertQuery,insertValues,(err,result)=>{
+        if(err){
+          res.status(500).send("error Happend During Sending")
+        }else{
+          res.status(200).send('Data Inserted Successfully' );
+        }
+      }) 
+
+  }catch(error){
+      console.error('Error inserting data:', error);
+      res.status(500).json({ error: 'An error occurred' });
+  }
+})
