@@ -817,3 +817,94 @@ app.post('/FABRInformation',(req,res)=>{
       res.status(500).json({ error: 'An error occurred' });
   }
 })
+
+
+
+
+const authenticateToken = (request, response, next) => {
+  let jwtToken;
+  const authHeader = request.headers["authorization"];
+  if (authHeader !== undefined) {
+    jwtToken = authHeader.split(" ")[1];
+  }
+  if (jwtToken === undefined) {
+    response.status(401);
+    response.send("Invalid JWT Token");
+  } else {
+    jwt.verify(jwtToken, "MY_SECRET_TOKEN", async (error, payload) => {
+      if (error) {
+        response.status(401);
+        response.send("Invalid JWT Token");
+      } else {
+        request.userId = payload.userId;
+        next();
+      }
+});
+}
+};
+
+
+app.post("/personalInformation", (req,res)=>{
+  try{
+      const {
+  user_id   ,
+  LastName ,
+  FirstName ,
+  MiddleName ,
+  MaritalStatus ,
+  DOM ,
+  DOB ,
+  SSN ,
+  Country ,
+  VisaCategory ,
+  Occupation,
+  FirstDateOfEntryToUS,
+  DidyoueverchangedyourvisacategoryduringTY2022
+      }=req.body;
+
+      const insertQuery =`INSERT INTO taxpayer(
+        user_id   ,
+        LastName ,
+        FirstName ,
+        MiddleName ,
+        MaritalStatus ,
+        DOM ,
+        DOB ,
+        SSN ,
+        Country ,
+        VisaCategory ,
+        Occupation,
+        FirstDateOfEntryToUS,
+        DidyoueverchangedyourvisacategoryduringTY2022
+       ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`
+
+      const insertValues = [
+        user_id   ,
+        LastName ,
+        FirstName ,
+        MiddleName ,
+        MaritalStatus ,
+        DOM ,
+        DOB ,
+        SSN ,
+        Country ,
+        VisaCategory ,
+        Occupation,
+        FirstDateOfEntryToUS,
+        DidyoueverchangedyourvisacategoryduringTY2022
+      ];  
+      
+      db.query(insertQuery,insertValues,(err,result)=>{
+        if(err){
+          console.log(err)
+          res.status(500).send("error Happend During Sending")
+        }else{
+          res.status(200).send('Data Inserted Successfully' );
+        }
+      }) 
+
+  }catch(error){
+      console.error('Error inserting data:', error);
+      res.status(500).json({ error: 'An error occurred' });
+  }
+})
