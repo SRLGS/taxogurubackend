@@ -3,9 +3,11 @@ const mysql = require("mysql")
 const bcrypt = require("bcrypt");
 const nodemailer=require("nodemailer")
 const app=express()
+const cors=require("cors")
 const jwt =require("jsonwebtoken")
 let payload
 app.use(express.json());
+app.use(cors)
 const db=mysql.createConnection({
   host:"localhost",
   user:"root",
@@ -893,8 +895,6 @@ app.post("/personalInformation", (req,res)=>{
         FirstDateOfEntryToUS,
         DidyoueverchangedyourvisacategoryduringTY2022
       ];  
-
-
       const query = 'SELECT * FROM taxpayer WHERE user_id = ?';
       db.query(query, [user_id], async(error, results) => {
         if (error) {
