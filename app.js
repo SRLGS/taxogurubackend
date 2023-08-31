@@ -951,11 +951,10 @@ app.put("/ContactInformation", authenticateToken , async (request, response) => 
     CurrentStreetaddress="${CurrentStreetaddress}" ,
     AptNumber="${AptNumber}",
     City ="${City}",
-    State =${ State},
+    State ="${ State}",
     ZipCode="${ZipCode}"
     WHERE
-      user_id = ${userId}`;
-
+      user_id = "${userId}"`;
       const query = 'SELECT * FROM taxpayer WHERE user_id = ?';
       db.query(query, [user_id], async(error, results) => {
         if (error) {
@@ -1042,18 +1041,18 @@ app.put("/ScheduleMedicalExpenses", authenticateToken , async (request, response
     UPDATE
     taxpayer
     SET
-    medialexpensesusingHSAAccountYesorNo=${medialexpensesusingHSAAccountYesorNo},
+    medialexpensesusingHSAAccountYesorNo="${medialexpensesusingHSAAccountYesorNo}",
     MedicalexpensesYesorNo='${ MedicalexpensesYesorNo}',
-    RealestatepropertytaxesinUSYesorNo=${RealestatepropertytaxesinUSYesorNo},
-    HomeMortgageInterestUSorForeignCountryYesorNo=${HomeMortgageInterestUSorForeignCountryYesorNo},
-    CharitableContributionsin2022YesorNo  =${CharitableContributionsin2022YesorNo },
-    HaveyoupaidanypersonalpropertyMotorvehicletaxes=${HaveyoupaidanypersonalpropertyMotorvehicletaxes},
-    Nameoftaxtownordistrictforwhichvehicletaxesarepaid =${Nameoftaxtownordistrictforwhichvehicletaxesarepaid},
-    HowdidyoufiledyourlastyeartaxreturnsItemizedOrStandard =${ HowdidyoufiledyourlastyeartaxreturnsItemizedOrStandard },
-    EducationexpensesforyourselfyourSpouseorDependants=${EducationexpensesforyourselfyourSpouseorDependants},
-    HaveyoupaidanyStudentLoanInterestinUSA =${HaveyoupaidanyStudentLoanInterestinUSA }
+    RealestatepropertytaxesinUSYesorNo="${RealestatepropertytaxesinUSYesorNo}",
+    HomeMortgageInterestUSorForeignCountryYesorNo="${HomeMortgageInterestUSorForeignCountryYesorNo}",
+    CharitableContributionsin2022YesorNo  ="${CharitableContributionsin2022YesorNo }",
+    HaveyoupaidanypersonalpropertyMotorvehicletaxes="${HaveyoupaidanypersonalpropertyMotorvehicletaxes}",
+    Nameoftaxtownordistrictforwhichvehicletaxesarepaid ="${Nameoftaxtownordistrictforwhichvehicletaxesarepaid}",
+    HowdidyoufiledyourlastyeartaxreturnsItemizedOrStandard ="${ HowdidyoufiledyourlastyeartaxreturnsItemizedOrStandard }",
+    EducationexpensesforyourselfyourSpouseorDependants="${EducationexpensesforyourselfyourSpouseorDependants}",
+    HaveyoupaidanyStudentLoanInterestinUSA ="${HaveyoupaidanyStudentLoanInterestinUSA}"
     WHERE
-      user_id = ${user_Id}`;
+      user_id = "${user_Id}"`;
 
       const query = 'SELECT * FROM taxpayer WHERE user_id = ?';
       db.query(query, [user_id], async(error, results) => {
@@ -1100,7 +1099,7 @@ app.put("/OtherIncomeDetails", authenticateToken , async (request, response) => 
     DoyouhaveanyRentalorBusinessIncomeexpensesinUSorForeignCountry="${DoyouhaveanyRentalorBusinessIncomeexpensesinUSorForeignCountry}",
     DoyouhaveanyDistributionsfromIRAPensionAccountorHSAAccount="${DoyouhaveanyDistributionsfromIRAPensionAccountorHSAAccount}"
     WHERE
-      user_id = ${user_Id}`;
+      user_id = "${user_Id}"`;
       const query = 'SELECT * FROM taxpayer WHERE user_id = ?';
       db.query(query, [user_id], async(error, results) => {
         if (error) {
