@@ -7,7 +7,9 @@ const cors=require("cors")
 const jwt =require("jsonwebtoken")
 let payload
 app.use(express.json());
-app.use(cors)
+app.use(cors({
+  origin: 'http://localhost:3000',
+}));
 const db=mysql.createConnection({
   host:"localhost",
   user:"root",
@@ -847,6 +849,7 @@ const authenticateToken = (request, response, next) => {
 };
 
 app.post("/personalInformation", (req,res)=>{
+  console.log(req.body)
   try{
       const {
   user_id   ,
@@ -1116,7 +1119,100 @@ app.put("/OtherIncomeDetails", authenticateToken , async (request, response) => 
     }
   })
 }
-        }
+}
 });
-})
-;
+});  
+
+
+
+app.put("/RentalProperty", authenticateToken , async (request, response) => {
+  const {user_Id} = request;
+  const Taxpayers = request.body;
+  const {
+    DateOFRental ,
+        AddressOfTheProperty ,
+        CityOfProperty,
+        StateOfProperty,
+        CountryOfProperty,
+        MaterialParticipation,
+        TimeSpentInBusinessDuringTheYear,
+        PropertyPurchaseDATE,
+        PropertyPurchasePRICE,
+        ValueOfcapitalImprovements,
+        ValueOfLand,
+        TotalRentReceivedDuringTaxYear,
+        Advertising,
+        CleaningMaintenance,
+        Commissions,
+        Insurance,
+        Interest,
+        LegalFees,
+        LocalTransportationExpenses,
+        PointsPaidOnLoan,
+        RentalPaymentsLoss,
+        Repairs,
+        TaxReturnPreparationFees,
+        Taxes,
+        TravelExpenses,
+        Utilities,
+        OtherExpenses,
+        MortgageInsurance,
+        Depreciation
+  } = Taxpayers;
+
+  const updateTaxpayers = `
+    UPDATE
+    taxpayer
+    SET
+    DateOFRental='${DateOFRental}',
+    AddressOfTheProperty="${AddressOfTheProperty}",
+    CityOfProperty="${CityOfProperty}",
+    StateOfProperty="${StateOfProperty}",
+    CountryOfProperty="${CountryOfProperty}",
+    MaterialParticipation="${MaterialParticipation}",
+    TimeSpentInBusinessDuringTheYear="${TimeSpentInBusinessDuringTheYear}",
+    PropertyPurchaseDATE="${PropertyPurchaseDATE}",
+    PropertyPurchasePRICE="${PropertyPurchasePRICE}",
+    ValueOfcapitalImprovements="${ValueOfcapitalImprovements}",
+    ValueOfLand="${ValueOfLand}",
+    TotalRentReceivedDuringTaxYear="${TotalRentReceivedDuringTaxYear}",
+    Advertising="${Advertising}",
+    CleaningMaintenance="${CleaningMaintenance}",
+    Commissions="${Commissions}",
+    Insurance="${Insurance}",
+    Interest="${Interest}",
+    LegalFees="${LegalFees}",
+    LocalTransportationExpenses="${LocalTransportationExpenses}",
+    PointsPaidOnLoan="${PointsPaidOnLoan}",
+    RentalPaymentsLoss="${RentalPaymentsLoss}",
+    Repairs="${Repairs}",
+    TaxReturnPreparationFees="${TaxReturnPreparationFees}",
+    Taxes="${Taxes}",
+    TravelExpenses="${TravelExpenses}",
+    Utilities="${Utilities}",
+    OtherExpenses="${OtherExpenses}",
+    MortgageInsurance="${MortgageInsurance}",
+    Depreciation="${Depreciation}",
+    WHERE
+      user_id = "${user_Id}"`;
+      const query = 'SELECT * FROM taxpayer WHERE user_id = ?';
+      db.query(query, [user_id], async(error, results) => {
+        if (error) {
+          console.error('Error Happened During Checking:', error);
+          res.status(500).send('Error Happened During Checking');
+        } else {
+          if (results.length > 0) {
+            res.status(200).send("User Already Exist");
+          } else {
+          db.query(updateTaxpayers, (err, result) => {
+    if (err) {
+      console.error('Error updating details:', err);
+      response.status(500).json({ error: 'An error occurred during profile details update.' });
+    } else {
+      response.status(200).send("Details Updated Successfully");
+    }
+    })
+  }
+  }
+  });
+  });
