@@ -893,7 +893,17 @@ app.post("/personalInformation", (req,res)=>{
         FirstDateOfEntryToUS,
         DidyoueverchangedyourvisacategoryduringTY2022
       ];  
-      
+
+
+      const query = 'SELECT * FROM taxpayer WHERE user_id = ?';
+      db.query(query, [user_id], async(error, results) => {
+        if (error) {
+          console.error('Error Happened During Checking:', error);
+          res.status(500).send('Error Happened During Checking');
+        } else {
+          if (results.length > 0) {
+            res.status(200).send("User Already Exist");
+          } else {
       db.query(insertQuery,insertValues,(err,result)=>{
         if(err){
           console.log(err)
@@ -902,7 +912,9 @@ app.post("/personalInformation", (req,res)=>{
           res.status(200).send('Data Inserted Successfully' );
         }
       }) 
-
+      }
+    }
+  })
   }catch(error){
       console.error('Error inserting data:', error);
       res.status(500).json({ error: 'An error occurred' });
