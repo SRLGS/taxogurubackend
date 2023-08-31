@@ -908,3 +908,5 @@ app.post("/personalInformation", (req,res)=>{
       res.status(500).json({ error: 'An error occurred' });
   }
 })
+
+
