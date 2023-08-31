@@ -53,6 +53,7 @@ const generateOTP = () => {
   };
   const otpStore = {};
   app.post('/signup', async(req, res) => {
+    console.log("signup")
     const { user_id, name, email, password,phone } = req.body
     const query = 'SELECT * FROM account WHERE email = ?';
     db.query(query, [email], async(error, results) => {
@@ -845,7 +846,6 @@ const authenticateToken = (request, response, next) => {
 }
 };
 
-
 app.post("/personalInformation", (req,res)=>{
   try{
       const {
@@ -922,3 +922,201 @@ app.post("/personalInformation", (req,res)=>{
 })
 
 
+
+
+app.put("/ContactInformation", authenticateToken , async (request, response) => {
+  const {userId} = request;
+  const Taxpayers = request.body;
+  const {
+    EmailID ,
+    PrimaryContactNumber ,
+    AlternateContactNumber,
+    CurrentStreetaddress ,
+    AptNumber,
+    City ,
+    State ,
+    ZipCode
+  } = Taxpayers;
+  
+  const updateTaxpayers = `
+    UPDATE
+    taxpayer
+    SET
+    EmailID ="${EmailID}",
+    PrimaryContactNumber="${PrimaryContactNumber}" ,
+    AlternateContactNumber="${AlternateContactNumber}",
+    CurrentStreetaddress="${CurrentStreetaddress}" ,
+    AptNumber="${AptNumber}",
+    City ="${City}",
+    State =${ State},
+    ZipCode="${ZipCode}"
+    WHERE
+      user_id = ${userId}`;
+
+      const query = 'SELECT * FROM taxpayer WHERE user_id = ?';
+      db.query(query, [user_id], async(error, results) => {
+        if (error) {
+          console.error('Error Happened During Checking:', error);
+          res.status(500).send('Error Happened During Checking');
+        } else {
+          if (results.length > 0) {
+            res.status(200).send("User Already Exist");
+          } else {
+  db.query(updateTaxpayers, (err, result) => {
+    if (err) {
+      console.error('Error updating details:', err);
+      response.status(500).json({ error: 'An error occurred during profile details update.' });
+    } else {
+      response.status(200).send("Details Updated Successfully");
+    }
+  });
+}
+}      
+})
+});
+
+app.put("/insurenceCoverageDetails", authenticateToken , async (request, response) => {
+  const {userId} = request;
+  const Taxpayers = request.body;
+  const {
+    HealthInsurance,
+    FullYearOrPartYear,
+    EmployerOrMarketPlace,
+  } = Taxpayers;
+  
+  const updateTaxpayers = `
+    UPDATE
+    taxpayer
+    SET
+    HealthInsurance ="${HealthInsurance}"
+  FullYearOrPartYear ="${FullYearOrPartYear}"
+  EmployerOrMarketPlace="${EmployerOrMarketPlace}"
+    WHERE
+      user_id = "${userId}"`;
+      const query = 'SELECT * FROM taxpayer WHERE user_id = ?';
+      db.query(query, [user_id], async(error, results) => {
+        if (error) {
+          console.error('Error Happened During Checking:', error);
+          res.status(500).send('Error Happened During Checking');
+        } else {
+          if (results.length > 0) {
+            res.status(200).send("User Already Exist");
+          } else {
+  db.query(updateTaxpayers, (err, result) => {
+    if (err) {
+      console.error('Error updating details:', err);
+      response.status(500).json({ error: 'An error occurred during profile details update.' });
+    } else {
+      response.status(200).send("Details Updated Successfully");
+    }
+  })
+}
+}
+  })
+})
+
+
+
+
+
+app.put("/ScheduleMedicalExpenses", authenticateToken , async (request, response) => {
+  const {user_Id} = request;
+  const Taxpayers = request.body;
+  const {
+    MedicalexpensesYesorNo,
+  medialexpensesusingHSAAccountYesorNo ,
+  RealestatepropertytaxesinUSYesorNo ,
+  HomeMortgageInterestUSorForeignCountryYesorNo ,
+  CharitableContributionsin2022YesorNo ,
+  HaveyoupaidanypersonalpropertyMotorvehicletaxes ,
+  Nameoftaxtownordistrictforwhichvehicletaxesarepaid ,
+  HowdidyoufiledyourlastyeartaxreturnsItemizedOrStandard ,
+  EducationexpensesforyourselfyourSpouseorDependants ,
+  HaveyoupaidanyStudentLoanInterestinUSA
+  } = Taxpayers;
+
+  const updateTaxpayers = `
+    UPDATE
+    taxpayer
+    SET
+    medialexpensesusingHSAAccountYesorNo=${medialexpensesusingHSAAccountYesorNo},
+    MedicalexpensesYesorNo='${ MedicalexpensesYesorNo}',
+    RealestatepropertytaxesinUSYesorNo=${RealestatepropertytaxesinUSYesorNo},
+    HomeMortgageInterestUSorForeignCountryYesorNo=${HomeMortgageInterestUSorForeignCountryYesorNo},
+    CharitableContributionsin2022YesorNo  =${CharitableContributionsin2022YesorNo },
+    HaveyoupaidanypersonalpropertyMotorvehicletaxes=${HaveyoupaidanypersonalpropertyMotorvehicletaxes},
+    Nameoftaxtownordistrictforwhichvehicletaxesarepaid =${Nameoftaxtownordistrictforwhichvehicletaxesarepaid},
+    HowdidyoufiledyourlastyeartaxreturnsItemizedOrStandard =${ HowdidyoufiledyourlastyeartaxreturnsItemizedOrStandard },
+    EducationexpensesforyourselfyourSpouseorDependants=${EducationexpensesforyourselfyourSpouseorDependants},
+    HaveyoupaidanyStudentLoanInterestinUSA =${HaveyoupaidanyStudentLoanInterestinUSA }
+    WHERE
+      user_id = ${user_Id}`;
+
+      const query = 'SELECT * FROM taxpayer WHERE user_id = ?';
+      db.query(query, [user_id], async(error, results) => {
+        if (error) {
+          console.error('Error Happened During Checking:', error);
+          res.status(500).send('Error Happened During Checking');
+        } else {
+          if (results.length > 0) {
+            res.status(200).send("User Already Exist");
+          } else {
+  db.query(updateTaxpayers, (err, result) => {
+    if (err) {
+      console.error('Error updating details:', err);
+      response.status(500).json({ error: 'An error occurred during profile details update.' });
+    } else {
+      response.status(200).send("Details Updated Successfully");
+    }
+  })
+}
+        };
+})
+});
+
+ 
+
+//OTHER INCOME details
+app.put("/OtherIncomeDetails", authenticateToken , async (request, response) => {
+  const {user_Id} = request;
+  const Taxpayers = request.body;
+  const {
+    HaveyousoldanystocksCapitalAssetsinUSorForeignCountry,
+  HaveyouearnedanyInterestIncomeinUSorForeignCountry,
+  DoyouhaveanydividendIncomeinUSorForeignCountry,
+  DoyouhaveanyRentalorBusinessIncomeexpensesinUSorForeignCountry,
+  DoyouhaveanyDistributionsfromIRAPensionAccountorHSAAccount
+  } = Taxpayers;
+  const updateTaxpayers = `
+    UPDATE
+    taxpayer
+    SET
+    HaveyousoldanystocksCapitalAssetsinUSorForeignCountry='${HaveyousoldanystocksCapitalAssetsinUSorForeignCountry}',
+    HaveyouearnedanyInterestIncomeinUSorForeignCountry="${HaveyouearnedanyInterestIncomeinUSorForeignCountry}",
+    DoyouhaveanydividendIncomeinUSorForeignCountry="${DoyouhaveanydividendIncomeinUSorForeignCountry}",
+    DoyouhaveanyRentalorBusinessIncomeexpensesinUSorForeignCountry="${DoyouhaveanyRentalorBusinessIncomeexpensesinUSorForeignCountry}",
+    DoyouhaveanyDistributionsfromIRAPensionAccountorHSAAccount="${DoyouhaveanyDistributionsfromIRAPensionAccountorHSAAccount}"
+    WHERE
+      user_id = ${user_Id}`;
+      const query = 'SELECT * FROM taxpayer WHERE user_id = ?';
+      db.query(query, [user_id], async(error, results) => {
+        if (error) {
+          console.error('Error Happened During Checking:', error);
+          res.status(500).send('Error Happened During Checking');
+        } else {
+          if (results.length > 0) {
+            res.status(200).send("User Already Exist");
+          } else {
+  db.query(updateTaxpayers, (err, result) => {
+    if (err) {
+      console.error('Error updating details:', err);
+      response.status(500).json({ error: 'An error occurred during profile details update.' });
+    } else {
+      response.status(200).send("Details Updated Successfully");
+    }
+  })
+}
+        }
+});
+})
+;
