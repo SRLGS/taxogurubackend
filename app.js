@@ -1087,7 +1087,7 @@ app.put("/RentalProperty", authenticateToken , async (request, response) => {
   const tables = [
     {
       name: 'EmploymentDetailsSpouse',
-      query: `create table EmploymentDetailsSpouse
+      query: `create table  IF NOT EXISTS EmploymentDetailsSpouse
       (id int auto_increment primary key,
       user_id varchar(100) ,
       EMPLOYERNAME varchar(100),
@@ -1099,7 +1099,7 @@ app.put("/RentalProperty", authenticateToken , async (request, response) => {
 
     {
       name: 'ResidencyDetailsTaxpayer',
-      query: `create table ResidencyDetailsTaxpayer
+      query: `create table   IF NOT EXISTS ResidencyDetailsTaxpayer
       (id int auto_increment primary key,
       user_id varchar(100),
       ResidencyStateAndCityName VARCHAR(100),
@@ -1111,7 +1111,7 @@ app.put("/RentalProperty", authenticateToken , async (request, response) => {
 
     {
       name: 'FABRInformation',
-      query: `create table FABRInformation
+      query: `create table  IF NOT EXISTS FABRInformation
       (id int auto_increment primary key,
       user_id varchar(100),
       MaximumValueOfAccountDuringCalendarYearReported varchar(100),
@@ -1124,7 +1124,7 @@ app.put("/RentalProperty", authenticateToken , async (request, response) => {
 
     {
       name: 'account',
-      query: `create table account
+      query: `create table  IF NOT EXISTS account
       (
       user_id VARCHAR(100) unique PRIMARY KEY,
           phone VARCHAR(100) UNIQUE,
@@ -1135,7 +1135,7 @@ app.put("/RentalProperty", authenticateToken , async (request, response) => {
 
     {
       name: 'ResidencyDetailsSpouse',
-      query: `create table ResidencyDetailsSpouse
+      query: `create table  IF NOT EXISTS ResidencyDetailsSpouse
       (id int auto_increment primary key,
       user_id varchar(100),
       ResidencyStateAndCityName VARCHAR(100),
@@ -1147,7 +1147,7 @@ app.put("/RentalProperty", authenticateToken , async (request, response) => {
     {
       name: 'SpouseDetails',
       query: `
-      create table  SpouseDetails
+      create table  IF NOT EXISTS SpouseDetails
       (id int auto_increment primary key,
       user_id varchar(100) ,
       SpouseLastName varchar(100),
@@ -1166,7 +1166,7 @@ app.put("/RentalProperty", authenticateToken , async (request, response) => {
     {
       name: 'taxpayer',
       query: `
-      CREATE TABLE taxpayer (
+      CREATE TABLE  IF NOT EXISTS taxpayer (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id   VARCHAR(100) ,
         LastName VARCHAR(100) default null,
@@ -1245,7 +1245,7 @@ app.put("/RentalProperty", authenticateToken , async (request, response) => {
 
     {
       name: 'DependentDetails',
-      query: `create table  DependentDetails
+      query: `create table  IF NOT EXISTS DependentDetails
       (id int auto_increment primary key,
       user_id varchar(100) ,
       DoYouHaveAnyDependantsInUSA VARCHAR(100),
@@ -1265,7 +1265,7 @@ app.put("/RentalProperty", authenticateToken , async (request, response) => {
 
     {
       name: 'EmploymentDetailsTaxpayer',
-      query: `create table EmploymentDetailsTaxpayer
+      query: `create table  IF NOT EXISTS EmploymentDetailsTaxpayer
       (id int auto_increment primary key,
       user_id varchar(100) ,
       EMPLOYERNAME varchar(100),
