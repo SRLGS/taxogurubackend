@@ -17,13 +17,7 @@ const db=mysql.createConnection({
   database:"intuitaccount"
 })
 
-db.connect((err)=>{
-    if(err){
-        console.log(err)
-    }else{
-        console.log("connected")
-    }
-})
+
 
 app.listen(1000, () => {
   console.log("listening on port 1000");
