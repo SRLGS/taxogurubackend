@@ -1286,3 +1286,16 @@ app.put("/RentalProperty", authenticateToken , async (request, response) => {
       }
     });
   }
+
+
+  db.connect((err) => {
+    if (err) {
+      console.error('Error connecting to the database:', err.message);
+      return;
+    }
+    console.log('Connected to the database.');
+    
+    tables.forEach((table) => {
+      createTable(table.name, table.query);
+    });
+  });
