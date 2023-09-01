@@ -7,9 +7,9 @@ const cors=require("cors")
 const jwt =require("jsonwebtoken")
 let payload
 app.use(express.json());
-app.use(cors({
-  origin: 'http://localhost:3000',
-}));
+/*app.use(cors({
+  origin: 'http://localhost:1000',//change Port as per React Port
+}));*/
 const db=mysql.createConnection({
   host:"localhost",
   user:"root",
@@ -121,6 +121,7 @@ const generateOTP = () => {
   });   
 
   app.post('/signin', (req, res) => {
+    console.log("signin")
     const {email,password} = req.body;
     const query1 = 'SELECT * FROM account WHERE email = ?';
     const query2='select * from account where email=?'
@@ -132,7 +133,6 @@ const generateOTP = () => {
         res.status(500).send("User Not Exist" );
         console.log("User Not Exist")
       } else {
-  
         const comparison= await bcrypt.compare(password,results1[0].passwordCreated)
         if(comparison){
         db.query(query2,[email],(err,results2)=>{
@@ -295,7 +295,7 @@ const generateOTP = () => {
 
 /*const createTableQuery2 = `CREATE TABLE taxpayer (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id  unique VARCHAR(100) ,
+  user_id   VARCHAR(100) ,
   LastName VARCHAR(100) default null,
   FirstName VARCHAR(100)default null,
   MiddleName VARCHAR(100)default null,
@@ -841,7 +841,7 @@ const authenticateToken = (request, response, next) => {
         response.status(401);
         response.send("Invalid JWT Token");
       } else {
-        request.userId = payload.userId;
+        request.user_id = payload.user_id;
         next();
       }
 });
@@ -928,7 +928,8 @@ app.post("/personalInformation", (req,res)=>{
 
 
 app.put("/ContactInformation", authenticateToken , async (request, response) => {
-  const {userId} = request;
+  const {user_id} = request;
+  console.log(user_id)
   const Taxpayers = request.body;
   const {
     EmailID ,
@@ -954,31 +955,21 @@ app.put("/ContactInformation", authenticateToken , async (request, response) => 
     State ="${ State}",
     ZipCode="${ZipCode}"
     WHERE
-      user_id = "${userId}"`;
-      const query = 'SELECT * FROM taxpayer WHERE user_id = ?';
-      db.query(query, [user_id], async(error, results) => {
-        if (error) {
-          console.error('Error Happened During Checking:', error);
-          res.status(500).send('Error Happened During Checking');
+      user_id = "${user_id}"`;
+
+      db.query(updateTaxpayers, (err, result) => {
+        if (err) {
+          console.error('Error updating details:', err);
+          response.status(500).json({ error: 'An error occurred during profile details update.' });
         } else {
-          if (results.length > 0) {
-            res.status(200).send("User Already Exist");
-          } else {
-  db.query(updateTaxpayers, (err, result) => {
-    if (err) {
-      console.error('Error updating details:', err);
-      response.status(500).json({ error: 'An error occurred during profile details update.' });
-    } else {
-      response.status(200).send("Details Updated Successfully");
-    }
-  });
-}
-}      
-})
+          response.status(200).send("Details Updated Successfully");
+        }
+      });
+    
 });
 
 app.put("/insurenceCoverageDetails", authenticateToken , async (request, response) => {
-  const {userId} = request;
+  const {user_id} = request;
   const Taxpayers = request.body;
   const {
     HealthInsurance,
@@ -990,39 +981,25 @@ app.put("/insurenceCoverageDetails", authenticateToken , async (request, respons
     UPDATE
     taxpayer
     SET
-    HealthInsurance ="${HealthInsurance}"
-  FullYearOrPartYear ="${FullYearOrPartYear}"
+    HealthInsurance ="${HealthInsurance}",
+  FullYearOrPartYear ="${FullYearOrPartYear}",
   EmployerOrMarketPlace="${EmployerOrMarketPlace}"
     WHERE
-      user_id = "${userId}"`;
-      const query = 'SELECT * FROM taxpayer WHERE user_id = ?';
-      db.query(query, [user_id], async(error, results) => {
-        if (error) {
-          console.error('Error Happened During Checking:', error);
-          res.status(500).send('Error Happened During Checking');
+      user_id = "${user_id}"`;
+
+      db.query(updateTaxpayers, (err, result) => {
+        if (err) {
+          console.error('Error updating details:', err);
+          response.status(500).json({ error: 'An error occurred during profile details update.' });
         } else {
-          if (results.length > 0) {
-            res.status(200).send("User Already Exist");
-          } else {
-  db.query(updateTaxpayers, (err, result) => {
-    if (err) {
-      console.error('Error updating details:', err);
-      response.status(500).json({ error: 'An error occurred during profile details update.' });
-    } else {
-      response.status(200).send("Details Updated Successfully");
-    }
-  })
-}
-}
-  })
+          response.status(200).send("Details Updated Successfully");
+        }
+      });
+     
 })
 
-
-
-
-
 app.put("/ScheduleMedicalExpenses", authenticateToken , async (request, response) => {
-  const {user_Id} = request;
+  const {user_id} = request;
   const Taxpayers = request.body;
   const {
     MedicalexpensesYesorNo,
@@ -1052,35 +1029,23 @@ app.put("/ScheduleMedicalExpenses", authenticateToken , async (request, response
     EducationexpensesforyourselfyourSpouseorDependants="${EducationexpensesforyourselfyourSpouseorDependants}",
     HaveyoupaidanyStudentLoanInterestinUSA ="${HaveyoupaidanyStudentLoanInterestinUSA}"
     WHERE
-      user_id = "${user_Id}"`;
+      user_id = "${user_id}"`;
 
-      const query = 'SELECT * FROM taxpayer WHERE user_id = ?';
-      db.query(query, [user_id], async(error, results) => {
-        if (error) {
-          console.error('Error Happened During Checking:', error);
-          res.status(500).send('Error Happened During Checking');
+      db.query(updateTaxpayers, (err, result) => {
+        if (err) {
+          console.error('Error updating details:', err);
+          response.status(500).json({ error: 'An error occurred during profile details update.' });
         } else {
-          if (results.length > 0) {
-            res.status(200).send("User Already Exist");
-          } else {
-  db.query(updateTaxpayers, (err, result) => {
-    if (err) {
-      console.error('Error updating details:', err);
-      response.status(500).json({ error: 'An error occurred during profile details update.' });
-    } else {
-      response.status(200).send("Details Updated Successfully");
-    }
-  })
-}
-        };
-})
-});
+          response.status(200).send("Details Updated Successfully");
+        }
+      });
 
- 
+     
+});
 
 //OTHER INCOME details
 app.put("/OtherIncomeDetails", authenticateToken , async (request, response) => {
-  const {user_Id} = request;
+  const {user_id} = request;
   const Taxpayers = request.body;
   const {
     HaveyousoldanystocksCapitalAssetsinUSorForeignCountry,
@@ -1099,33 +1064,23 @@ app.put("/OtherIncomeDetails", authenticateToken , async (request, response) => 
     DoyouhaveanyRentalorBusinessIncomeexpensesinUSorForeignCountry="${DoyouhaveanyRentalorBusinessIncomeexpensesinUSorForeignCountry}",
     DoyouhaveanyDistributionsfromIRAPensionAccountorHSAAccount="${DoyouhaveanyDistributionsfromIRAPensionAccountorHSAAccount}"
     WHERE
-      user_id = "${user_Id}"`;
-      const query = 'SELECT * FROM taxpayer WHERE user_id = ?';
-      db.query(query, [user_id], async(error, results) => {
-        if (error) {
-          console.error('Error Happened During Checking:', error);
-          res.status(500).send('Error Happened During Checking');
+      user_id = "${user_id}"`;
+
+      db.query(updateTaxpayers, (err, result) => {
+        if (err) {
+          console.error('Error updating details:', err);
+          response.status(500).json({ error: 'An error occurred during profile details update.' });
         } else {
-          if (results.length > 0) {
-            res.status(200).send("User Already Exist");
-          } else {
-  db.query(updateTaxpayers, (err, result) => {
-    if (err) {
-      console.error('Error updating details:', err);
-      response.status(500).json({ error: 'An error occurred during profile details update.' });
-    } else {
-      response.status(200).send("Details Updated Successfully");
-    }
-  })
-}
-}
-});
+          response.status(200).send("Details Updated Successfully");
+        }
+      });
+     
 });  
 
 
 
 app.put("/RentalProperty", authenticateToken , async (request, response) => {
-  const {user_Id} = request;
+  const {user_id} = request;
   const Taxpayers = request.body;
   const {
     DateOFRental ,
@@ -1191,27 +1146,45 @@ app.put("/RentalProperty", authenticateToken , async (request, response) => {
     Utilities="${Utilities}",
     OtherExpenses="${OtherExpenses}",
     MortgageInsurance="${MortgageInsurance}",
-    Depreciation="${Depreciation}",
+    Depreciation="${Depreciation}"
     WHERE
-      user_id = "${user_Id}"`;
-      const query = 'SELECT * FROM taxpayer WHERE user_id = ?';
-      db.query(query, [user_id], async(error, results) => {
-        if (error) {
-          console.error('Error Happened During Checking:', error);
-          res.status(500).send('Error Happened During Checking');
+      user_id = "${user_id}"`;
+
+      db.query(updateTaxpayers, (err, result) => {
+        if (err) {
+          console.error('Error updating details:', err);
+          response.status(500).json({ error: 'An error occurred during profile details update.' });
         } else {
-          if (results.length > 0) {
-            res.status(200).send("User Already Exist");
-          } else {
-          db.query(updateTaxpayers, (err, result) => {
-    if (err) {
-      console.error('Error updating details:', err);
-      response.status(500).json({ error: 'An error occurred during profile details update.' });
-    } else {
-      response.status(200).send("Details Updated Successfully");
-    }
-    })
-  }
-  }
+          response.status(200).send("Details Updated Successfully");
+        }
+      });
+     
   });
+
+
+
+
+  app.put("/RetirementPlans", authenticateToken , async (request, response) => {
+    const {user_id} = request;
+    const Taxpayers = request.body;
+    const {
+      HaveyoumadeanyIRAcontributionsorplanningtodoforTY2022 ,
+      CollagesavingsplanforyourdependentsYesorNo
+    } = Taxpayers;
+    const updateTaxpayers = `
+      UPDATE
+      taxpayer
+      SET
+      HaveyoumadeanyIRAcontributionsorplanningtodoforTY2022 ='${HaveyoumadeanyIRAcontributionsorplanningtodoforTY2022}',
+      CollagesavingsplanforyourdependentsYesorNo ="${CollagesavingsplanforyourdependentsYesorNo}"
+      WHERE
+        user_id = "${user_id}"`
+    db.query(updateTaxpayers, (err, result) => {
+      if (err) {
+        console.error('Error updating details:', err);
+        response.status(500).json({ error: 'An error occurred during profile details update.' });
+      } else {
+        response.status(200).send("Details Updated Successfully");
+      }
+    });
   });
