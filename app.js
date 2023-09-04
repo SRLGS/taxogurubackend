@@ -1308,6 +1308,6 @@ app.get('/getPersonalInfo/taxpayer/:user_id',(req,res)=>{
       res.status(404).json({ error: 'User not found' });
       return;
     }
-    res.json(results[0]);
+    res.json({data:results[0]});
   })
 })
