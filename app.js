@@ -52,8 +52,8 @@ const generateOTP = () => {
           const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-              user: 'ravitejasamboju@gmail.com',
-              pass: 'tqoyywpwqmpydkhc',
+              user: //kepp any mail,
+              pass: //keep password,
             },
           });
           const mailOptions = {
@@ -161,8 +161,8 @@ const generateOTP = () => {
         const transporter = nodemailer.createTransport({
           service: 'gmail',
           auth: {
-            user: 'ravitejasamboju@gmail.com',
-            pass: 'tqoyywpwqmpydkhc',
+            user: //keep any mail,
+            pass: //keep another password,
           },
         });
         const mailOptions = {
