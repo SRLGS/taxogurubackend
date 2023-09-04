@@ -7,9 +7,9 @@ const cors=require("cors")
 const jwt =require("jsonwebtoken")
 let payload
 app.use(express.json());
-/*app.use(cors({
-  origin: 'http://localhost:1000',//change Port as per React Port
-}));*/
+app.use(cors({
+  origin: 'http://localhost:3000',//change Port as per React Port
+}));
 const db=mysql.createConnection({
   host:"localhost",
   user:"root",
@@ -25,30 +25,30 @@ db.connect((err)=>{
     }
 })
 
-app.listen(1000, () => {
+app.listen(3001, () => {
   console.log("listening on port 1000");
 });
 
 
 
-/*const createTableQuery = `
-create table account
-(
-user_id VARCHAR(100) unique PRIMARY KEY,
-    phone VARCHAR(100) UNIQUE,
-    email VARCHAR(100) UNIQUE,
-    passwordCreated VARCHAR(100),
-    name VARCHAR(100));
-  `;
+// const createTableQuery = `
+// create table account
+// (
+// user_id VARCHAR(100) unique PRIMARY KEY,
+//     phone VARCHAR(100) UNIQUE,
+//     email VARCHAR(100) UNIQUE,
+//     passwordCreated VARCHAR(100),
+//     name VARCHAR(100));
+//   `;
 
-  db.query(createTableQuery, (error, results, fields) => {
-    if (error) {
-      console.error('Error creating table:', error);
-    } else {
-      console.log('Table created successfully');
-    }
-    db.end(); 
-  });*/
+//   db.query(createTableQuery, (error, results, fields) => {
+//     if (error) {
+//       console.error('Error creating table:', error);
+//     } else {
+//       console.log('Table created successfully');
+//     }
+//     db.end(); 
+//   });
 
 const generateOTP = () => {
     return Math.floor(100000 + Math.random() * 900000);
@@ -264,245 +264,245 @@ const generateOTP = () => {
     });
     
     
-    /*const createTableQuery1 = `
-    create table  SpouseDetails
-    (id int auto_increment primary key,
-    user_id varchar(100) ,
-    SpouseLastName varchar(100),
-    SpouseFirstName varchar(100) ,
-    SpouseMiddleName varchar(100),
-    DOB varchar(100) ,
-    SSN varchar(100) ,
-   CountryOfCitizenship varchar(100),
-   visaCategory varchar(100) ,
-   Occupation varchar(100) ,
-   FirstDateOfEntryToUS varchar(100) ,
-   Foreign key(user_id) references account(user_id) on delete cascade
-)`;*/
+//     const createTableQuery1 = `
+//     create table  SpouseDetails
+//     (id int auto_increment primary key,
+//     user_id varchar(100) ,
+//     SpouseLastName varchar(100),
+//     SpouseFirstName varchar(100) ,
+//     SpouseMiddleName varchar(100),
+//     DOB varchar(100) ,
+//     SSN varchar(100) ,
+//    CountryOfCitizenship varchar(100),
+//    visaCategory varchar(100) ,
+//    Occupation varchar(100) ,
+//    FirstDateOfEntryToUS varchar(100) ,
+//    Foreign key(user_id) references account(user_id) on delete cascade
+// )`;
 
 
-/*db.query(createTableQuery1, (error, results, fields) => {
-  if (error) {
-    console.error('Error creating table:', error);
-  } else {
-    console.log('Table created successfully');
-  }
-  db.end(); 
-})*/
+// db.query(createTableQuery1, (error, results, fields) => {
+//   if (error) {
+//     console.error('Error creating table:', error);
+//   } else {
+//     console.log('Table created successfully');
+//   }
+//   db.end(); 
+// })
 
   
 
 
-/*const createTableQuery2 = `CREATE TABLE taxpayer (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id   VARCHAR(100) ,
-  LastName VARCHAR(100) default null,
-  FirstName VARCHAR(100)default null,
-  MiddleName VARCHAR(100)default null,
-  MaritalStatus VARCHAR(100)default null,
-  DOM VARCHAR(100)default null,
-  DOB VARCHAR(100)default null,
-  SSN VARCHAR(100)default null,
-  Country VARCHAR(100)default null,
-  VisaCategory VARCHAR(100)default null,
-  Occupation VARCHAR(100)default null,
-  FirstDateOfEntryToUS VARCHAR(100) default null,
-  DidyoueverchangedyourvisacategoryduringTY2022 VARCHAR(100) default null,
-  EmailID VARCHAR(100) default null,
-  PrimaryContactNumber VARCHAR(100) default null,
-  AlternateContactNumber VARCHAR(100) default null,
-  CurrentStreetaddress VARCHAR(100) default null,
-  AptNumber VARCHAR(100) default null,
-  City VARCHAR(100) default null,
-  State VARCHAR(100) default null,
-  ZipCode VARCHAR(100) default null,
-  HealthInsurance VARCHAR(100) default null,
-  FullYearOrPartYear VARCHAR(100) default null,
-  EmployerOrMarketPlace VARCHAR(100) default null,
-  MedicalexpensesYesorNo VARCHAR(100) default null,
-  medialexpensesusingHSAAccountYesorNo VARCHAR(100) default null,
-  RealestatepropertytaxesinUSYesorNo VARCHAR(100) default null,
-  HomeMortgageInterestUSorForeignCountryYesorNo VARCHAR(100) default null,
-  CharitableContributionsin2022YesorNo VARCHAR(100) default null,
-  HaveyoupaidanypersonalpropertyMotorvehicletaxes VARCHAR(100) default null,
-  Nameoftaxtownordistrictforwhichvehicletaxesarepaid VARCHAR(100) default null,
-  HowdidyoufiledyourlastyeartaxreturnsItemizedOrStandard VARCHAR(100) default null,
-  EducationexpensesforyourselfyourSpouseorDependants VARCHAR(100) default null,
-  HaveyoupaidanyStudentLoanInterestinUSA VARCHAR(100) default null,
-  HaveyousoldanystocksCapitalAssetsinUSorForeignCountry VARCHAR(100) default null,
-  HaveyouearnedanyInterestIncomeinUSorForeignCountry VARCHAR(100) default null,
-  DoyouhaveanydividendIncomeinUSorForeignCountry VARCHAR(100) default null,
-  DoyouhaveanyRentalorBusinessIncomeexpensesinUSorForeignCountry VARCHAR(100) default null,
-  DoyouhaveanyDistributionsfromIRAPensionAccountorHSAAccount VARCHAR(100) default null,
-  HaveyoumadeanyIRAcontributionsorplanningtodoforTY2022 VARCHAR(100) default null,
-  CollagesavingsplanforyourdependentsYesorNo VARCHAR(100) default null,
-  DateOFRental VARCHAR(100) default null,
-  AddressOfTheProperty VARCHAR(100) default null,
-  CityOfProperty VARCHAR(100) default null,
-  StateOfProperty VARCHAR(100) default null,
-  CountryOfProperty VARCHAR(100) default null,
-  MaterialParticipation VARCHAR(100) default null,
-  TimeSpentInBusinessDuringTheYear VARCHAR(100) default null,
-  PropertyPurchaseDATE VARCHAR(100) default null,
-  PropertyPurchasePRICE INT default null,
-  ValueOfcapitalImprovements INT default null,
-  ValueOfLand INT default null,
-  TotalRentReceivedDuringTaxYear INT default null,
-  Advertising INT default null,
-  CleaningMaintenance INT default null,
-  Commissions INT default null,
-  Insurance INT default null,
-  Interest INT default null,
-  LegalFees INT default null,
-  LocalTransportationExpenses INT default null,
-  PointsPaidOnLoan INT default null,
-  RentalPaymentsLoss INT default null,
-  Repairs INT default null,  
-  TaxReturnPreparationFees INT default null,
-  Taxes INT default null,
-  TravelExpenses INT default null,
-  Utilities INT default null,
-  OtherExpenses INT default null,
-  MortgageInsurance INT default null,
-  Depreciation INT default null,
-  FOREIGN KEY (user_id) REFERENCES account(user_id) ON DELETE CASCADE
-);`
+// const createTableQuery2 = `CREATE TABLE taxpayer (
+//   id INT AUTO_INCREMENT PRIMARY KEY,
+//   user_id   VARCHAR(100) ,
+//   LastName VARCHAR(100) default null,
+//   FirstName VARCHAR(100)default null,
+//   MiddleName VARCHAR(100)default null,
+//   MaritalStatus VARCHAR(100)default null,
+//   DOM VARCHAR(100)default null,
+//   DOB VARCHAR(100)default null,
+//   SSN VARCHAR(100)default null,
+//   Country VARCHAR(100)default null,
+//   VisaCategory VARCHAR(100)default null,
+//   Occupation VARCHAR(100)default null,
+//   FirstDateOfEntryToUS VARCHAR(100) default null,
+//   DidyoueverchangedyourvisacategoryduringTY2022 VARCHAR(100) default null,
+//   EmailID VARCHAR(100) default null,
+//   PrimaryContactNumber VARCHAR(100) default null,
+//   AlternateContactNumber VARCHAR(100) default null,
+//   CurrentStreetaddress VARCHAR(100) default null,
+//   AptNumber VARCHAR(100) default null,
+//   City VARCHAR(100) default null,
+//   State VARCHAR(100) default null,
+//   ZipCode VARCHAR(100) default null,
+//   HealthInsurance VARCHAR(100) default null,
+//   FullYearOrPartYear VARCHAR(100) default null,
+//   EmployerOrMarketPlace VARCHAR(100) default null,
+//   MedicalexpensesYesorNo VARCHAR(100) default null,
+//   medialexpensesusingHSAAccountYesorNo VARCHAR(100) default null,
+//   RealestatepropertytaxesinUSYesorNo VARCHAR(100) default null,
+//   HomeMortgageInterestUSorForeignCountryYesorNo VARCHAR(100) default null,
+//   CharitableContributionsin2022YesorNo VARCHAR(100) default null,
+//   HaveyoupaidanypersonalpropertyMotorvehicletaxes VARCHAR(100) default null,
+//   Nameoftaxtownordistrictforwhichvehicletaxesarepaid VARCHAR(100) default null,
+//   HowdidyoufiledyourlastyeartaxreturnsItemizedOrStandard VARCHAR(100) default null,
+//   EducationexpensesforyourselfyourSpouseorDependants VARCHAR(100) default null,
+//   HaveyoupaidanyStudentLoanInterestinUSA VARCHAR(100) default null,
+//   HaveyousoldanystocksCapitalAssetsinUSorForeignCountry VARCHAR(100) default null,
+//   HaveyouearnedanyInterestIncomeinUSorForeignCountry VARCHAR(100) default null,
+//   DoyouhaveanydividendIncomeinUSorForeignCountry VARCHAR(100) default null,
+//   DoyouhaveanyRentalorBusinessIncomeexpensesinUSorForeignCountry VARCHAR(100) default null,
+//   DoyouhaveanyDistributionsfromIRAPensionAccountorHSAAccount VARCHAR(100) default null,
+//   HaveyoumadeanyIRAcontributionsorplanningtodoforTY2022 VARCHAR(100) default null,
+//   CollagesavingsplanforyourdependentsYesorNo VARCHAR(100) default null,
+//   DateOFRental VARCHAR(100) default null,
+//   AddressOfTheProperty VARCHAR(100) default null,
+//   CityOfProperty VARCHAR(100) default null,
+//   StateOfProperty VARCHAR(100) default null,
+//   CountryOfProperty VARCHAR(100) default null,
+//   MaterialParticipation VARCHAR(100) default null,
+//   TimeSpentInBusinessDuringTheYear VARCHAR(100) default null,
+//   PropertyPurchaseDATE VARCHAR(100) default null,
+//   PropertyPurchasePRICE INT default null,
+//   ValueOfcapitalImprovements INT default null,
+//   ValueOfLand INT default null,
+//   TotalRentReceivedDuringTaxYear INT default null,
+//   Advertising INT default null,
+//   CleaningMaintenance INT default null,
+//   Commissions INT default null,
+//   Insurance INT default null,
+//   Interest INT default null,
+//   LegalFees INT default null,
+//   LocalTransportationExpenses INT default null,
+//   PointsPaidOnLoan INT default null,
+//   RentalPaymentsLoss INT default null,
+//   Repairs INT default null,  
+//   TaxReturnPreparationFees INT default null,
+//   Taxes INT default null,
+//   TravelExpenses INT default null,
+//   Utilities INT default null,
+//   OtherExpenses INT default null,
+//   MortgageInsurance INT default null,
+//   Depreciation INT default null,
+//   FOREIGN KEY (user_id) REFERENCES account(user_id) ON DELETE CASCADE
+// );`
 
 
 
-db.query(createTableQuery2, (error, results, fields) => {
-    if (error) {
-      console.error('Error creating table:', error);
-    } else {
-      console.log('Table created successfully');
-    }
-    db.end(); 
-  })
+// db.query(createTableQuery2, (error, results, fields) => {
+//     if (error) {
+//       console.error('Error creating table:', error);
+//     } else {
+//       console.log('Table created successfully');
+//     }
+//     db.end(); 
+//   })
 
 
-const createTableQuery3 = `create table  DependentDetails
-(id int auto_increment primary key,
-user_id varchar(100) ,
-DoYouHaveAnyDependantsInUSA VARCHAR(100),
-DependantFirstName varchar(100),
-DependantMiddleName varchar(100),
-DependantLastName varchar(100),
-CountryOfCitizenship varchar(100),
-DependantVisaCategory varchar(100),
-DependantDateOfBirth varchar(100),
-SSN varchar(100),
-Relationship varchar(100),
-FirstDateOfEntryToUS varchar(100),
-DayCareExpensesIfBothTaxpayerAndSpouseAreWorking varchar(100),
-Foreign key(user_id) references account(user_id) on delete cascade
-)
-`
+// const createTableQuery3 = `create table  DependentDetails
+// (id int auto_increment primary key,
+// user_id varchar(100) ,
+// DoYouHaveAnyDependantsInUSA VARCHAR(100),
+// DependantFirstName varchar(100),
+// DependantMiddleName varchar(100),
+// DependantLastName varchar(100),
+// CountryOfCitizenship varchar(100),
+// DependantVisaCategory varchar(100),
+// DependantDateOfBirth varchar(100),
+// SSN varchar(100),
+// Relationship varchar(100),
+// FirstDateOfEntryToUS varchar(100),
+// DayCareExpensesIfBothTaxpayerAndSpouseAreWorking varchar(100),
+// Foreign key(user_id) references account(user_id) on delete cascade
+// )
+// `
 
-db.query(createTableQuery3, (error, results, fields) => {
-    if (error) {
-      console.error('Error creating table:', error);
-    } else {
-      console.log('Table created successfully');
-    }
-    db.end(); 
-  })
+// db.query(createTableQuery3, (error, results, fields) => {
+//     if (error) {
+//       console.error('Error creating table:', error);
+//     } else {
+//       console.log('Table created successfully');
+//     }
+//     db.end(); 
+//   })
 
-const createTableQuery4 = `create table EmploymentDetailsTaxpayer
-(id int auto_increment primary key,
-user_id varchar(100) ,
-EMPLOYERNAME varchar(100),
-EmploymentStartDate varchar(100),
-EmploymentEndDate varchar(100),
-Foreign key(user_id) references account(user_id) on delete cascade)
-`
+// const createTableQuery4 = `create table EmploymentDetailsTaxpayer
+// (id int auto_increment primary key,
+// user_id varchar(100) ,
+// EMPLOYERNAME varchar(100),
+// EmploymentStartDate varchar(100),
+// EmploymentEndDate varchar(100),
+// Foreign key(user_id) references account(user_id) on delete cascade)
+// `
 
-db.query(createTableQuery4, (error, results, fields) => {
-    if (error) {
-      console.error('Error creating table:', error);
-    } else {
-      console.log('Table created successfully');
-    }
-    db.end(); 
-  })
+// db.query(createTableQuery4, (error, results, fields) => {
+//     if (error) {
+//       console.error('Error creating table:', error);
+//     } else {
+//       console.log('Table created successfully');
+//     }
+//     db.end(); 
+//   })
 
-const createTableQuery5 = `create table EmploymentDetailsSpouse
-(id int auto_increment primary key,
-user_id varchar(100) ,
-EMPLOYERNAME varchar(100),
-EmploymentStartDate varchar(100),
-EmploymentEndDate varchar(100),
-Foreign key(user_id) references account(user_id) on delete cascade)`
-
-
-db.query(createTableQuery5, (error, results, fields) => {
-    if (error) {
-      console.error('Error creating table:', error);
-    } else {
-      console.log('Table created successfully');
-    }
-    db.end(); 
-  })
+// const createTableQuery5 = `create table EmploymentDetailsSpouse
+// (id int auto_increment primary key,
+// user_id varchar(100) ,
+// EMPLOYERNAME varchar(100),
+// EmploymentStartDate varchar(100),
+// EmploymentEndDate varchar(100),
+// Foreign key(user_id) references account(user_id) on delete cascade)`
 
 
+// db.query(createTableQuery5, (error, results, fields) => {
+//     if (error) {
+//       console.error('Error creating table:', error);
+//     } else {
+//       console.log('Table created successfully');
+//     }
+//     db.end(); 
+//   })//
 
 
-const createTableQuery6 = `create table ResidencyDetailsTaxpayer
-(id int auto_increment primary key,
-user_id varchar(100),
-ResidencyStateAndCityName VARCHAR(100),
-StartDate VARCHAR(100),
-EndDate VARCHAR(100),
-TotalRentPaidDuring VARCHAR(100),
-Foreign key(user_id) references account(user_id) on delete cascade)`
-
-db.query(createTableQuery6, (error, results, fields) => {
-    if (error) {
-      console.error('Error creating table:', error);
-    } else {
-      console.log('Table created successfully');
-    }
-    db.end(); 
-  })
 
 
-const createTableQuery7 = `create table ResidencyDetailsSpouse
-(id int auto_increment primary key,
-user_id varchar(100),
-ResidencyStateAndCityName VARCHAR(100),
-StartDate VARCHAR(100),
-EndDate VARCHAR(100),
-TotalRentPaidDuring VARCHAR(100),
-Foreign key(user_id) references account(user_id) on delete cascade)`
+// const createTableQuery6 = `create table ResidencyDetailsTaxpayer
+// (id int auto_increment primary key,
+// user_id varchar(100),
+// ResidencyStateAndCityName VARCHAR(100),
+// StartDate VARCHAR(100),
+// EndDate VARCHAR(100),
+// TotalRentPaidDuring VARCHAR(100),
+// Foreign key(user_id) references account(user_id) on delete cascade)`
+
+// db.query(createTableQuery6, (error, results, fields) => {
+//     if (error) {
+//       console.error('Error creating table:', error);
+//     } else {
+//       console.log('Table created successfully');
+//     }
+//     db.end(); 
+//   })
 
 
-db.query(createTableQuery7, (error, results, fields) => {
-    if (error) {
-      console.error('Error creating table:', error);
-    } else {
-      console.log('Table created successfully');
-    }
-    db.end(); 
-  })
+// const createTableQuery7 = `create table ResidencyDetailsSpouse
+// (id int auto_increment primary key,
+// user_id varchar(100),
+// ResidencyStateAndCityName VARCHAR(100),
+// StartDate VARCHAR(100),
+// EndDate VARCHAR(100),
+// TotalRentPaidDuring VARCHAR(100),
+// Foreign key(user_id) references account(user_id) on delete cascade)`
 
 
-const createTableQuery8 = `create table FABRInformation
-(id int auto_increment primary key,
-user_id varchar(100),
-MaximumValueOfAccountDuringCalendarYearReported varchar(100),
-TypeOfAccount varchar(100),
-NameOfTheFinancialInstitutionInWhichAccountIsHeld varchar(100),
-MailingAddressOfBank varchar(100) ,
-Foreign key(user_id) references account(user_id) on delete cascade)`
+// db.query(createTableQuery7, (error, results, fields) => {
+//     if (error) {
+//       console.error('Error creating table:', error);
+//     } else {
+//       console.log('Table created successfully');
+//     }
+//     db.end(); 
+//   })
 
 
-db.query(createTableQuery8, (error, results, fields) => {
-    if (error) {
-      console.error('Error creating table:', error);
-    } else {
-      console.log('Table created successfully');
-    }
-    db.end(); 
-  })*/
+// const createTableQuery8 = `create table FABRInformation
+// (id int auto_increment primary key,
+// user_id varchar(100),
+// MaximumValueOfAccountDuringCalendarYearReported varchar(100),
+// TypeOfAccount varchar(100),
+// NameOfTheFinancialInstitutionInWhichAccountIsHeld varchar(100),
+// MailingAddressOfBank varchar(100) ,
+// Foreign key(user_id) references account(user_id) on delete cascade)`
+
+
+// db.query(createTableQuery8, (error, results, fields) => {
+//     if (error) {
+//       console.error('Error creating table:', error);
+//     } else {
+//       console.log('Table created successfully');
+//     }
+//     db.end(); 
+//   })
 
 
 
@@ -533,7 +533,8 @@ app.post('/spouseDetails', async(req,res)=>{
          FirstDateOfEntryToUS) VALUES(?,?,?,?,?,?,?,?,?,?)` 
 
       const insertValues=[
-          user_id,SpouseLastName,
+          user_id,
+          SpouseLastName,
           SpouseFirstName,
           SpouseMiddleName,
           DOB,
