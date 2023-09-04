@@ -52,8 +52,8 @@ const generateOTP = () => {
           const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-              user: //kepp any mail,
-              pass: //keep password,
+              user:  //kepp any mail,
+              pass: //keep  Mail password From Two step verification,
             },
           });
           const mailOptions = {
@@ -162,7 +162,7 @@ const generateOTP = () => {
           service: 'gmail',
           auth: {
             user: //keep any mail,
-            pass: //keep another password,
+            pass:  //keep mail password from two step verification,
           },
         });
         const mailOptions = {
@@ -1293,3 +1293,21 @@ app.put("/RentalProperty", authenticateToken , async (request, response) => {
       createTable(table.name, table.query);
     });
   });
+
+//getting all personal information data
+app.get('/getPersonalInfo/taxpayer/:user_id',(req,res)=>{
+  const userId = req.params.user_id;
+  const sqlQuery=`SELECT * from taxpayer WHERE user_id=?`;
+  db.query(sqlQuery,[userId],(err,results)=>{
+    if(err){
+      console.error('Error executing MySQL query: ' + err);
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
+    if (results.length === 0) {
+      res.status(404).json({ error: 'User not found' });
+      return;
+    }
+    res.json(results[0]);
+  })
+})
