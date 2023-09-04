@@ -53,7 +53,7 @@ const generateOTP = () => {
             service: 'gmail',
             auth: {
               user:  //kepp any mail,
-              pass://keep  Mail password From Two step verification,
+              pass:  //keep  Mail password From Two step verification,
             },
           });
           const mailOptions = {
@@ -1297,7 +1297,18 @@ app.put("/RentalProperty", authenticateToken , async (request, response) => {
 //getting all personal information data
 app.get('/getPersonalInfo/taxpayer/:user_id',(req,res)=>{
   const userId = req.params.user_id;
-  const sqlQuery=`SELECT * from taxpayer WHERE user_id=?`;
+  const sqlQuery=`SELECT
+*
+FROM account
+LEFT JOIN employmentdetailstaxpayer ON account.user_id = employmentdetailstaxpayer.user_id
+LEFT JOIN employmentdetailsspouse ON account.user_id = employmentdetailsspouse.user_id
+LEFT JOIN dependentdetails ON account.user_id = dependentdetails.user_id
+LEFT JOIN fabrinformation ON account.user_id = fabrinformation.user_id
+LEFT JOIN residencydetailstaxpayer ON account.user_id = residencydetailstaxpayer.user_id
+LEFT JOIN residencydetailsspouse ON account.user_id = residencydetailsspouse.user_id
+LEFT JOIN spousedetails ON account.user_id = spousedetails.user_id
+LEFT JOIN taxpayer ON account.user_id = taxpayer.user_id
+WHERE account.user_id = ?`;
   db.query(sqlQuery,[userId],(err,results)=>{
     if(err){
       console.error('Error executing MySQL query: ' + err);
