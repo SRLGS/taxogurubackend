@@ -53,7 +53,7 @@ const generateOTP = () => {
             service: 'gmail',
             auth: {
               user:  //kepp any mail,
-              pass: //keep  Mail password From Two step verification,
+              pass://keep  Mail password From Two step verification,
             },
           });
           const mailOptions = {
@@ -1308,6 +1308,7 @@ app.get('/getPersonalInfo/taxpayer/:user_id',(req,res)=>{
       res.status(404).json({ error: 'User not found' });
       return;
     }
+    console.log(results[0])
     res.json({data:results[0]});
   })
 })
