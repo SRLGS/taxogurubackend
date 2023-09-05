@@ -52,8 +52,8 @@ const generateOTP = () => {
           const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-              user:  //kepp any mail,
-              pass:  //keep  Mail password From Two step verification,
+              user:  "user",//kepp any mail,
+              pass: "pass" //keep  Mail password From Two step verification,
             },
           });
           const mailOptions = {
@@ -161,8 +161,8 @@ const generateOTP = () => {
         const transporter = nodemailer.createTransport({
           service: 'gmail',
           auth: {
-            user: //keep any mail,
-            pass:  //keep mail password from two step verification,
+            user:"user", //keep any mail,
+            pass:"pass"  //keep mail password from two step verification,
           },
         });
         const mailOptions = {
@@ -221,7 +221,7 @@ const generateOTP = () => {
     });
     
 
-    app.get('/adminEmail', (req, res) => {
+    app.post('/adminEmail', (req, res) => {
       const{email}=req.body
       const query = 'SELECT * FROM account where email=?';
       db.query(query, [email], (err, data) => {
