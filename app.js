@@ -7,9 +7,9 @@ const cors=require("cors")
 const jwt =require("jsonwebtoken")
 let payload
 app.use(express.json());
-/*app.use(cors({
-  origin: 'http://localhost:1000',//change Port as per React Port
-}));*/
+app.use(cors({
+  origin: 'http://localhost:3000',//change Port as per React Port
+}));
 const db=mysql.createConnection({
   host:"localhost",
   user:"root",
@@ -236,21 +236,21 @@ const generateOTP = () => {
     });
     
     
-    /*const createTableQuery1 = `
-    create table  SpouseDetails
-    (id int auto_increment primary key,
-    user_id varchar(100) ,
-    SpouseLastName varchar(100),
-    SpouseFirstName varchar(100) ,
-    SpouseMiddleName varchar(100),
-    DOB varchar(100) ,
-    SSN varchar(100) ,
-   CountryOfCitizenship varchar(100),
-   visaCategory varchar(100) ,
-   Occupation varchar(100) ,
-   FirstDateOfEntryToUS varchar(100) ,
-   Foreign key(user_id) references account(user_id) on delete cascade
-)`;*/
+//     const createTableQuery1 = `
+//     create table  SpouseDetails
+//     (id int auto_increment primary key,
+//     user_id varchar(100) ,
+//     SpouseLastName varchar(100),
+//     SpouseFirstName varchar(100) ,
+//     SpouseMiddleName varchar(100),
+//     DOB varchar(100) ,
+//     SSN varchar(100) ,
+//    CountryOfCitizenship varchar(100),
+//    visaCategory varchar(100) ,
+//    Occupation varchar(100) ,
+//    FirstDateOfEntryToUS varchar(100) ,
+//    Foreign key(user_id) references account(user_id) on delete cascade
+// )`;
 
 
   
@@ -421,7 +421,8 @@ app.post('/spouseDetails', async(req,res)=>{
          FirstDateOfEntryToUS) VALUES(?,?,?,?,?,?,?,?,?,?)` 
 
       const insertValues=[
-          user_id,SpouseLastName,
+          user_id,
+          SpouseLastName,
           SpouseFirstName,
           SpouseMiddleName,
           DOB,
