@@ -52,8 +52,8 @@ const generateOTP = () => {
           const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-              user:  "user",//kepp any mail,
-              pass: "pass" //keep  Mail password From Two step verification,
+              user:  "yaswanthjalla23@gmail.com",//kepp any mail,
+              pass: "cphimcttdqdjztne", //keep  Mail password From Two step verification,
             },
           });
           const mailOptions = {
@@ -161,8 +161,8 @@ const generateOTP = () => {
         const transporter = nodemailer.createTransport({
           service: 'gmail',
           auth: {
-            user:"user", //keep any mail,
-            pass:"pass"  //keep mail password from two step verification,
+            user:"yaswanthjalla23@gmail.com",//kepp any mail,
+            pass: "cphimcttdqdjztne",  //keep mail password from two step verification,
           },
         });
         const mailOptions = {
@@ -219,21 +219,30 @@ const generateOTP = () => {
         }
       });                                           
     });
-    
 
-    app.post('/adminEmail', (req, res) => {
-      const{email}=req.body
-      const query = 'SELECT * FROM account where email=?';
-      db.query(query, [email], (err, data) => {
-        console.log(err,data)
+
+
+    app.get('/adminEmail/:email', (req, res) => {
+      const { email } = req.params; // Get the email parameter from the URL
+      console.log(email);
+      const query = 'SELECT * FROM account WHERE email = ?';
+      db.query(query, [email], (err, rows) => {
         if (err) {
           console.log('Error In Fetching Data From Database:', err);
           res.status(500).send("Error In Fetching Data From Database");
         } else {
-          res.status(200).json({data});
+          if (rows.length === 1) {
+            const data = rows[0]; // Assuming there's only one matching row
+            console.log(data);
+            res.status(200).json(data);
+          } else {
+            res.status(404).send("Data not found"); // Handle the case when no data is found for the given email
+          }
         }
-      });                                           
+      });
     });
+    
+
     
     
 //     const createTableQuery1 = `
