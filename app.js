@@ -17,8 +17,8 @@ const db=mysql.createConnection({
   database:"intuitaccount"
 })
 
-app.listen(1000, () => {
-  console.log("listening on port 1000");
+app.listen(3001, () => {
+  console.log("listening on port 3001");
 });
 const generateOTP = () => {
     return Math.floor(100000 + Math.random() * 900000);
