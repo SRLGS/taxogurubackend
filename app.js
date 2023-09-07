@@ -17,8 +17,6 @@ const db=mysql.createConnection({
   database:"intuitaccount"
 })
 
-
-
 app.listen(1000, () => {
   console.log("listening on port 1000");
 });
@@ -850,7 +848,7 @@ app.put("/ContactInformation", authenticateToken , async (request, response) => 
     CurrentStreetaddress="${CurrentStreetaddress}" ,
     AptNumber="${AptNumber}",
     City ="${City}",
-    State ="${ State}",
+    State ="${State}",
     ZipCode="${ZipCode}"
     WHERE
       user_id = "${user_id}"`;
@@ -917,7 +915,7 @@ app.put("/ScheduleMedicalExpenses", authenticateToken , async (request, response
     taxpayer
     SET
     medialexpensesusingHSAAccountYesorNo="${medialexpensesusingHSAAccountYesorNo}",
-    MedicalexpensesYesorNo='${ MedicalexpensesYesorNo}',
+    MedicalexpensesYesorNo='${MedicalexpensesYesorNo}',
     RealestatepropertytaxesinUSYesorNo="${RealestatepropertytaxesinUSYesorNo}",
     HomeMortgageInterestUSorForeignCountryYesorNo="${HomeMortgageInterestUSorForeignCountryYesorNo}",
     CharitableContributionsin2022YesorNo  ="${CharitableContributionsin2022YesorNo }",
@@ -973,120 +971,34 @@ app.put("/OtherIncomeDetails", authenticateToken , async (request, response) => 
         }
       });
      
-});  
+}); 
 
 
 
-app.put("/RentalProperty", authenticateToken , async (request, response) => {
+app.put("/RetirementPlans", authenticateToken , async (request, response) => {
   const {user_id} = request;
   const Taxpayers = request.body;
   const {
-    DateOFRental ,
-        AddressOfTheProperty ,
-        CityOfProperty,
-        StateOfProperty,
-        CountryOfProperty,
-        MaterialParticipation,
-        TimeSpentInBusinessDuringTheYear,
-        PropertyPurchaseDATE,
-        PropertyPurchasePRICE,
-        ValueOfcapitalImprovements,
-        ValueOfLand,
-        TotalRentReceivedDuringTaxYear,
-        Advertising,
-        CleaningMaintenance,
-        Commissions,
-        Insurance,
-        Interest,
-        LegalFees,
-     LocalTransportationExpenses,
-        PointsPaidOnLoan,
-        RentalPaymentsLoss,
-        Repairs,
-        TaxReturnPreparationFees,
-        Taxes,
-        TravelExpenses,
-        Utilities,
-        OtherExpenses,
-        MortgageInsurance,
-        Depreciation
+    HaveyoumadeanyIRAcontributionsorplanningtodoforTY2022 ,
+    CollagesavingsplanforyourdependentsYesorNo
   } = Taxpayers;
-
   const updateTaxpayers = `
     UPDATE
     taxpayer
     SET
-    DateOFRental='${DateOFRental}',
-    AddressOfTheProperty="${AddressOfTheProperty}",
-    CityOfProperty="${CityOfProperty}",
-    StateOfProperty="${StateOfProperty}",
-    CountryOfProperty="${CountryOfProperty}",
-    MaterialParticipation="${MaterialParticipation}",
-    TimeSpentInBusinessDuringTheYear="${TimeSpentInBusinessDuringTheYear}",
-    PropertyPurchaseDATE="${PropertyPurchaseDATE}",
-    PropertyPurchasePRICE="${PropertyPurchasePRICE}",
-    ValueOfcapitalImprovements="${ValueOfcapitalImprovements}",
-    ValueOfLand="${ValueOfLand}",
-    TotalRentReceivedDuringTaxYear="${TotalRentReceivedDuringTaxYear}",
-    Advertising="${Advertising}",
-    CleaningMaintenance="${CleaningMaintenance}",
-    Commissions="${Commissions}",
-    Insurance="${Insurance}",
-    Interest="${Interest}",
-    LegalFees="${LegalFees}",
-    LocalTransportationExpenses="${LocalTransportationExpenses}",
-    PointsPaidOnLoan="${PointsPaidOnLoan}",
-    RentalPaymentsLoss="${RentalPaymentsLoss}",
-    Repairs="${Repairs}",
-    TaxReturnPreparationFees="${TaxReturnPreparationFees}",
-    Taxes="${Taxes}",
-    TravelExpenses="${TravelExpenses}",
-    Utilities="${Utilities}",
-    OtherExpenses="${OtherExpenses}",
-    MortgageInsurance="${MortgageInsurance}",
-    Depreciation="${Depreciation}"
+    HaveyoumadeanyIRAcontributionsorplanningtodoforTY2022 ='${HaveyoumadeanyIRAcontributionsorplanningtodoforTY2022}',
+    CollagesavingsplanforyourdependentsYesorNo ="${CollagesavingsplanforyourdependentsYesorNo}"
     WHERE
-      user_id = "${user_id}"`;
-
-      db.query(updateTaxpayers, (err, result) => {
-        if (err) {
-          console.error('Error updating details:', err);
-          response.status(500).json({ error: 'An error occurred during profile details update.' });
-        } else {
-          response.status(200).send("Details Updated Successfully");
-        }
-      });
-     
+      user_id = "${user_id}"`
+  db.query(updateTaxpayers, (err, result) => {
+    if (err) {
+      console.error('Error updating details:', err);
+      response.status(500).json({ error: 'An error occurred during profile details update.' });
+    } else {
+      response.status(200).send("Details Updated Successfully");
+    }
   });
-
-
-
-
-  app.put("/RetirementPlans", authenticateToken , async (request, response) => {
-    const {user_id} = request;
-    const Taxpayers = request.body;
-    const {
-      HaveyoumadeanyIRAcontributionsorplanningtodoforTY2022 ,
-      CollagesavingsplanforyourdependentsYesorNo
-    } = Taxpayers;
-    const updateTaxpayers = `
-      UPDATE
-      taxpayer
-      SET
-      HaveyoumadeanyIRAcontributionsorplanningtodoforTY2022 ='${HaveyoumadeanyIRAcontributionsorplanningtodoforTY2022}',
-      CollagesavingsplanforyourdependentsYesorNo ="${CollagesavingsplanforyourdependentsYesorNo}"
-      WHERE
-        user_id = "${user_id}"`
-    db.query(updateTaxpayers, (err, result) => {
-      if (err) {
-        console.error('Error updating details:', err);
-        response.status(500).json({ error: 'An error occurred during profile details update.' });
-      } else {
-        response.status(200).send("Details Updated Successfully");
-      }
-    });
-  });
-
+});
 
   const tables = [
     {
@@ -1213,35 +1125,6 @@ app.put("/RentalProperty", authenticateToken , async (request, response) => {
         DoyouhaveanyDistributionsfromIRAPensionAccountorHSAAccount VARCHAR(100) default null,
         HaveyoumadeanyIRAcontributionsorplanningtodoforTY2022 VARCHAR(100) default null,
         CollagesavingsplanforyourdependentsYesorNo VARCHAR(100) default null,
-        DateOFRental VARCHAR(100) default null,
-        AddressOfTheProperty VARCHAR(100) default null,
-        CityOfProperty VARCHAR(100) default null,
-        StateOfProperty VARCHAR(100) default null,
-        CountryOfProperty VARCHAR(100) default null,
-        MaterialParticipation VARCHAR(100) default null,
-        TimeSpentInBusinessDuringTheYear VARCHAR(100) default null,
-        PropertyPurchaseDATE VARCHAR(100) default null,
-        PropertyPurchasePRICE INT default null,
-        ValueOfcapitalImprovements INT default null,
-        ValueOfLand INT default null,
-        TotalRentReceivedDuringTaxYear INT default null,
-        Advertising INT default null,
-        CleaningMaintenance INT default null,
-        Commissions INT default null,
-        Insurance INT default null,
-        Interest INT default null,
-        LegalFees INT default null,
-        LocalTransportationExpenses INT default null,
-        PointsPaidOnLoan INT default null,
-        RentalPaymentsLoss INT default null,
-        Repairs INT default null,  
-        TaxReturnPreparationFees INT default null,
-        Taxes INT default null,
-        TravelExpenses INT default null,
-        Utilities INT default null,
-        OtherExpenses INT default null,
-        MortgageInsurance INT default null,
-        Depreciation INT default null,
         FOREIGN KEY (user_id) REFERENCES account(user_id) ON DELETE CASCADE
       )
       `
@@ -1279,7 +1162,7 @@ app.put("/RentalProperty", authenticateToken , async (request, response) => {
     }
 
     
-  ];
+  ];  
   
   function createTable(tableName, createTableQuery) {
     db.query(createTableQuery, (err, result) => {
@@ -1297,8 +1180,7 @@ app.put("/RentalProperty", authenticateToken , async (request, response) => {
       console.error('Error connecting to the database:', err.message);
       return;
     }
-    console.log('Connected to the database.');
-    
+    console.log('Connected to the database.');    
     tables.forEach((table) => {
       createTable(table.name, table.query);
     });
