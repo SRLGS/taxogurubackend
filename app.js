@@ -1,4 +1,4 @@
-//RAVI IS GREATEST
+const Duty="RAVI IS GREATEST"
 const express = require("express")
 const mysql = require("mysql")
 const bcrypt = require("bcrypt");
