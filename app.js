@@ -125,7 +125,6 @@ const generateOTP = () => {
     });
   });
 
-
   app.post("/admin", (req, res) => {
     const { username, password } = req.body;
     if (username === "taxoguru" && password === "taxoguru123") {
@@ -145,7 +144,6 @@ const generateOTP = () => {
 
 //CHANGE PASSWORD 
       const forgotPassword={}
-
       app.put('/forgotPassword', async (req, res) => {
       try {
         const { email } = req.body;
@@ -155,7 +153,6 @@ const generateOTP = () => {
         }
         const otp = generateOTP();
         forgotPassword[email] = otp;  
-    
         const transporter = nodemailer.createTransport({
           service: 'gmail',
           auth: {
