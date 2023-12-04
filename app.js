@@ -1,4 +1,4 @@
-const Duty="RAVI IS GREATEST"
+
 const express = require("express")
 const mysql = require("mysql")
 const bcrypt = require("bcrypt");
@@ -8,9 +8,9 @@ const cors=require("cors")
 const jwt =require("jsonwebtoken")
 let payload
 app.use(express.json());
-app.use(cors({
-  origin: 'http://localhost:3000',//change Port as per React Port
-}));
+/*app.use(cors({
+  origin: 'http://localhost:1000',//change Port as per React Port
+}));*/
 const db=mysql.createConnection({
   host:"localhost",
   user:"root",
@@ -18,8 +18,8 @@ const db=mysql.createConnection({
   database:"intuitaccount"
 })
 
-app.listen(3001, () => {
-  console.log("listening on port 3001");
+app.listen(7000, () => {
+  console.log("listening on port 1000");
 });
 const generateOTP = () => {
     return Math.floor(100000 + Math.random() * 900000);
@@ -37,7 +37,7 @@ const generateOTP = () => {
         if (results.length > 0) {
           res.status(200).send("User Already Exist");
         } else {
-    const query = 'INSERT INTO account (user_id, passwordCreated, name, email, phone) VALUES (?, ?, ?, ?,?)';
+    const query = 'INSERT  INTO account (user_id, passwordCreated, name, email, phone) VALUES (?, ?, ?, ?,?)';
     const newPassword= await bcrypt.hash(password,10)
     payload={user_id}
     db.query(query, [user_id, newPassword, name ,email, phone], (error, results) => {
@@ -556,9 +556,6 @@ app.post('/EmploymentDetailsTaxpayer',async(req,res)=>{
       res.status(500).json({ error: 'An error occurred' });
   }
 })
-
-
-
 
 app.post('/EmploymentDetailsTaxpayerSpouse',async(req,res)=>{
   try{
